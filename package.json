@@ -1,0 +1,37 @@
+{
+    "name": "safe-send-remake",
+    "version": "1.0.0",
+    "description": "Custom Celo Composer project.",
+    "private": true,
+    "author": "Celo",
+    "license": "MIT",
+    "scripts": {
+        "react-app:dev": "yarn workspace @safe-send-remake/react-app dev",
+        "react-app:build": "yarn workspace @safe-send-remake/react-app build",
+        "react-app:start": "yarn workspace @safe-send-remake/react-app start",
+        "react-app:lint": "yarn workspace @safe-send-remake/react-app lint",
+        "hardhat:test": "yarn workspace @safe-send-remake/hardhat test",
+        "hardhat:test-local": "yarn workspace @safe-send-remake/hardhat test-local",
+        "hardhat:accounts": "yarn workspace @safe-send-remake/hardhat accounts",
+        "hardhat:devchain": "yarn workspace @safe-send-remake/hardhat devchain",
+        "hardhat:deploy": "yarn workspace @safe-send-remake/hardhat deploy",
+        "hardhat:deploy-reset-watch": "yarn workspace @safe-send-remake/hardhat deploy-reset-watch",
+        "hardhat:watch": "yarn workspace @safe-send-remake/hardhat watch",
+        "hardhat:fork-mainnet": "yarn workspace @safe-send-remake/hardhat fork-mainnet"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/celo-org/celo-composer.git"
+    },
+    "bugs": {
+        "url": "https://github.com/celo-org/celo-composer/issues"
+    },
+    "homepage": "https://github.com/celo-org/celo-composer/blob/main/README.md",
+    "workspaces": [
+        "packages/*"
+    ],
+    "keywords": [
+        "celo-composer",
+        "celo"
+    ]
+}
