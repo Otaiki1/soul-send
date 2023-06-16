@@ -1,0 +1,10 @@
+.accountSetupWrapper {
+  width: 50%;
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.btnStyle {
+  width: 50%;
+}

@@ -1,0 +1,13 @@
+.txnDetail {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+.btn {
+  display: block;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+.txnDetailWrapper {
+  width: 30rem;
+}
