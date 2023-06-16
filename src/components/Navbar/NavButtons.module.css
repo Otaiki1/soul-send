@@ -1,0 +1,55 @@
+.home {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+.homeParent {
+  /* position: absolute;
+  top: 19px;
+  left: calc(50% - 158.8px); */
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  /* gap: 100px; */
+}
+
+.frameChild {
+  position: absolute;
+  top: 48px;
+  display: none;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 80px;
+  height: 6px;
+}
+.frameParent {
+  /* position: absolute;
+  top: 26.7px;
+  left: calc(50% - 228.3px); */
+  border-radius: 5px;
+  background-color: #294d52;
+  border: 0.3px solid #fff;
+  box-sizing: border-box;
+  width: 456.6px;
+  height: 54.6px;
+  overflow: hidden;
+  color: #fff;
+}
+.active + .frameChild {
+  display: block;
+}
+.badge {
+  background-color: white;
+  border-radius: 100%;
+  padding: 0.3rem;
+  margin-left: 0.2rem;
+  color: #011a1e;
+  font-weight: 800;
+}
