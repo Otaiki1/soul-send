@@ -1,0 +1,29 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.input label {
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.input input {
+  width: 95%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font: inherit;
+  padding-left: 0.5rem;
+  border-radius: 30px;
+  box-sizing: border-box;
+  height: 2.8rem;
+}
+
+.input .redInput {
+  border: 1.2px solid #ec6767;
+}
+.input .blueInput {
+  border: 1.2px solid #3bb0f2;
+}

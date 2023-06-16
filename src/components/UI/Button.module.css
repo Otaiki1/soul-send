@@ -1,0 +1,34 @@
+.darkButton {
+  cursor: pointer;
+  border: 0;
+  padding: 0.8rem;
+  background-color: #011a1e;
+  border-radius: 7.5px;
+  width: 6.7rem;
+  box-sizing: border-box;
+}
+.darkButton > b {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+.whiteButton {
+  border: 0.8px solid #011a1e;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 0.8rem;
+  border-radius: 7.5px;
+  width: 6.7rem;
+  cursor: pointer;
+}
+.whiteButton > b {
+  color: #011a1e;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+.btnGroup {
+  display: flex;
+  justify-content: space-between;
+}
