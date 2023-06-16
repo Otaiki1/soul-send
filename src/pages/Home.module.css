@@ -1,0 +1,78 @@
+.theSafeWay {
+  font-size: 90px;
+  color: #fff;
+}
+.safeguardYourCrypto {
+  font-size: 24px;
+  color: rgba(245, 245, 245, 0.7);
+}
+.mintWarning {
+  font-size: 24px;
+  color: rgba(245, 245, 245, 0.7);
+  text-align: center;
+}
+.getStarted {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: Inter;
+  color: #121212;
+  text-align: center;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.getStartedWrapper {
+  cursor: pointer;
+  border: 1px solid #fff;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.youHaveReceived {
+  font-weight: 800;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(18, 18, 18, 0.8);
+
+  width: 454px;
+}
+.btnGroup {
+  margin: 0;
+  width: 55%;
+  display: flex;
+  justify-content: space-between;
+}
+.welcome {
+  /* background-color: #fff; */
+  height: auto;
+  overflow: hidden;
+  font-size: 14px;
+  color: #172e31;
+  display: flex;
+  padding: 1rem 4rem;
+}
+.welcome > div {
+  flex: 100%;
+}
+.moveLeft {
+  position: relative;
+  top: 3.5rem;
+  left: 2rem;
+}
+.move {
+  position: relative;
+  top: 2rem;
+}
+.moveLefter {
+  position: relative;
+  left: 4rem;
+  top: 5rem;
+}
+.cardsSection {
+  padding-left: 8rem;
+}
