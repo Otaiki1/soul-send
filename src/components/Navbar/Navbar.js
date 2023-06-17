@@ -5,14 +5,14 @@ import styles from "./Navbar.module.css";
 // import "@masa-finance/masa-react/dist/css/styles.css";
 
 import logo from "../../assets/image-1@2x.png";
-// import { useContext, useCallback } from "react";
+import { useContext } from "react";
 
 // import ethers from "ethers";
 import AddressBar from "./AddressBar";
-// import AuthContext from "../../context/auth-context";
+import AuthContext from "../../context/auth-context";
 
 export default function Navbar(props) {
-  // const ctx = useContext(AuthContext);
+  const ctx = useContext(AuthContext);
 
   return (
     <div className={styles.navbar}>
@@ -21,9 +21,9 @@ export default function Navbar(props) {
       </div>
       <NavButtons active={props.active} notifAmount={props.notifAmount} />
       <div>
-        {/* {!ctx.isConnected && <ConnectWallet clickHandler={ctx.connectWallet} />}
+        {!ctx.isConnected && <ConnectWallet clickHandler={ctx.connectWallet} />}
 
-        {ctx.isConnected && ctx.account && <AddressBar address={ctx.account} />} */}
+        {ctx.isConnected && ctx.account && <AddressBar address={ctx.account} />}
         <ConnectWallet />
       </div>
     </div>

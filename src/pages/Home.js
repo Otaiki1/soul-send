@@ -4,17 +4,17 @@ import Button from "../components/UI/Button";
 import Card from "../components/UI/Card";
 import Input from "../components/UI/Input";
 import styles from "./Home.module.css";
-// import { Navigate, useNavigate } from "react-router-dom";
-// import AuthContext from "../context/auth-context";
-// import MintSoulName from "../components/Home/MintSoulName";
+import { Navigate, useNavigate } from "react-router-dom";
+
+import MintSoulName from "../components/Home/MintSoulName";
 
 const Home = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  //   const moveToSend = useCallback(() => {
-  //     Navigate("/send");
-  //   }, [navigate]);
+  const moveToSend = useCallback(() => {
+    Navigate("/send");
+  }, [navigate]);
 
   const onGetStartedClick = () => {
     if (currentStep === 3) {
@@ -23,7 +23,6 @@ const Home = () => {
       setCurrentStep(currentStep + 1);
     }
   };
-  // const ctx = useContext(AuthContext);
 
   return (
     <>
@@ -83,7 +82,7 @@ const SoulNamePage = () => {
       <h1 className={styles.mintWarning}>
         You have to mint a soulname before you can use safe-send
       </h1>
-      {/* <MintSoulName /> */}
+      <MintSoulName />
     </>
   );
 };

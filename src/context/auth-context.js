@@ -60,11 +60,11 @@ export const AuthContextProvider = (props) => {
     // return false;
   }
   const connectWalletHandler = async () => {
-    // try {
-    //   await connectWallet();
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      await connectWallet();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // const mintSoulName = async (name, address) => {
