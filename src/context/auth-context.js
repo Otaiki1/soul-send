@@ -2,9 +2,9 @@ import React, { useState, useCallback } from "react";
 // import abi from "../utils/escrow.abi.json";
 import { ethers } from "ethers";
 
-// import { useMasa } from "@masa-finance/masa-react";
-// import { masa, createSoulNameHandler } from "../utils/masa";
-// import { switchChain } from "../utils/wallet";
+import { useMasa } from "@masa-finance/masa-react";
+import { masa, createSoulNameHandler } from "../utils/masa";
+import { switchChain } from "../utils/wallet";
 
 const AuthContext = React.createContext({
   isConnected: false,
@@ -18,46 +18,39 @@ export const AuthContextProvider = (props) => {
   const [isConnected, setIsConnected] = useState(false);
   const [account, setAccount] = useState("");
 
-  // const { connect, walletAddress, openMintSoulnameModal, currentNetwork } =
-  //   useMasa();
+  const { connect, walletAddress, openMintSoulnameModal, currentNetwork } =
+    useMasa();
 
-  // const connectionHandler = useCallback(() => {
-  //   connect();
-  // }, [connect]);
+  const connectionHandler = useCallback(() => {
+    connect();
+  }, [connect]);
 
   async function connectWallet() {
-    // Connect to Metamask
-    // if (window.ethereum) {
-    // try {
-    //     // Request account access
-    //     await switchChain();
-    //     connectionHandler();
-    //     console.log("Your current Network is ", currentNetwork);
-    //     const accounts = walletAddress;
-    //     openMintSoulnameModal();
-    //     // const accounts = await window.ethereum.request({
-    //     //   method: "eth_requestAccounts",
-    //     //   params: [
-    //     //     {
-    //     //       eth_chainId: "0x13881", // Mumbai testnet chain ID
-    //     //     },
-    //     //   ],
-    //     // });
-    //     if (accounts != "") {
-    //       console.log("Connected to wallet!", accounts);
-    //       setAccount(accounts);
-    //       setIsConnected(true);
-    //       return true;
-    //     } else {
-    //       console.log("Not connected");
-    //       return false;
-    //     }
-    //   } catch (error) {
-    //     console.log("Failed to connect to wallet:", error);
-    //     return false;
-    //   }
-    // }
-    // return false;
+    //Connect to Metamask
+    if (window.ethereum) {
+      try {
+        // Request account access
+        await switchChain();
+        connectionHandler();
+        console.log("Your current Network is ", currentNetwork);
+        const accounts = walletAddress;
+        openMintSoulnameModal();
+
+        if (accounts != "") {
+          console.log("Connected to wallet!", accounts);
+          setAccount(accounts);
+          setIsConnected(true);
+          return true;
+        } else {
+          console.log("Not connected");
+          return false;
+        }
+      } catch (error) {
+        console.log("Failed to connect to wallet:", error);
+        return false;
+      }
+    }
+    return false;
   }
   const connectWalletHandler = async () => {
     try {

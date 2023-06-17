@@ -2,7 +2,7 @@ import ConnectWallet from "./ConnectWallet";
 import NavButtons from "./NavButtons";
 import styles from "./Navbar.module.css";
 
-// import "@masa-finance/masa-react/dist/css/styles.css";
+import "@masa-finance/masa-react/dist/css/styles.css";
 
 import logo from "../../assets/image-1@2x.png";
 import { useContext } from "react";
