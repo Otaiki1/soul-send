@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-// import abi from "../utils/escrow.abi.json";
 import { ethers } from "ethers";
 
 import { useMasa } from "@masa-finance/masa-react";
@@ -60,14 +59,14 @@ export const AuthContextProvider = (props) => {
     }
   };
 
-  // const mintSoulName = async (name, address) => {
-  //   try {
-  //     const doneStuff = await createSoulNameHandler(name, address);
-  //     console.log("YOU HAVE DONE STUFF _____", doneStuff);
-  //   } catch (err) {
-  //     console.log("ERROR IS ____", err);
-  //   }
-  // };
+  const mintSoulName = async (name, address) => {
+    try {
+      const doneStuff = await createSoulNameHandler(name, address);
+      console.log("YOU HAVE DONE STUFF _____", doneStuff);
+    } catch (err) {
+      console.log("ERROR IS ____", err);
+    }
+  };
 
   return (
     <AuthContext.Provider
