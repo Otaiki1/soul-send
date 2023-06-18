@@ -4,7 +4,6 @@ import Card from "../components/UI/Card";
 import Input from "../components/UI/Input";
 import styles from "./Send.module.css";
 import AuthContext from "../context/auth-context";
-import emailjs from "../utils/emailJsConfig";
 
 const Send = () => {
   const ctx = useContext(AuthContext);
@@ -13,30 +12,30 @@ const Send = () => {
   const [address, setAddress] = useState("");
   const [amount, setAmount] = useState("");
 
-  // const submitHandler = async (e) => {
-  //   e.preventDefault();
-  //   const sendTx = await ctx.sendCrypto(address, amount);
-  //   if (sendTx) {
-  //     console.log("sent to escrow");
-  //     alert("Payment successful , note the payment id is ", sendTx);
-  //     emailjs
-  //       .send("service_psyg6bc", "template_gc65ykh", {
-  //         to_email: email,
-  //         from_name: "safe-send",
-  //         message: `You have received ${amount} matic in your safe-send wallet from ${ctx.account},
-  //          Head over to safe-send dapp to claim it, the payment Id is ${sendTx}, input this to claim`,
-  //       })
-  //       .then((response) => {
-  //         console.log("Email sent successfully!", response);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error sending email:", error);
-  //       });
-  //   } else {
-  //     console.log("failed");
-  //   }
-  //   console.log(email);
-  // };
+  const submitHandler = async (e) => {
+    //   e.preventDefault();
+    //   const sendTx = await ctx.sendCrypto(address, amount);
+    //   if (sendTx) {
+    //     console.log("sent to escrow");
+    //     alert("Payment successful , note the payment id is ", sendTx);
+    //     emailjs
+    //       .send("service_psyg6bc", "template_gc65ykh", {
+    //         to_email: email,
+    //         from_name: "safe-send",
+    //         message: `You have received ${amount} matic in your safe-send wallet from ${ctx.account},
+    //          Head over to safe-send dapp to claim it, the payment Id is ${sendTx}, input this to claim`,
+    //       })
+    //       .then((response) => {
+    //         console.log("Email sent successfully!", response);
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error sending email:", error);
+    //       });
+    //   } else {
+    //     console.log("failed");
+    //   }
+    //   console.log(email);
+  };
   return (
     <>
       <Navbar active={2} />

@@ -5,6 +5,7 @@ import Button from "../components/UI/Button";
 import Card from "../components/UI/Card";
 import Input from "../components/UI/Input";
 import styles from "./Claim.module.css";
+import AuthContext from "../context/auth-context";
 // import AuthContext from "../context/auth-context";
 
 function convertTimestamp(timestamp) {
@@ -23,22 +24,22 @@ function convertTimestamp(timestamp) {
 }
 
 const Claim = () => {
-  // const ctx = useContext(AuthContext);
-  // const [paymentId, setPaymentId] = useState("");
-  // const [payObject, setPayObject] = useState({ isOn: false });
+  const ctx = useContext(AuthContext);
+  const [paymentId, setPaymentId] = useState("");
+  const [payObject, setPayObject] = useState({ isOn: false });
 
-  // const inputHandler = async (_payId) => {
-  //   setPaymentId(_payId);
-  //   const paymentDetails = await ctx.fetchPaymentDetails(_payId);
-  //   const _payObject = {
-  //     amount: ethers.utils.parseEther(paymentDetails[1]),
-  //     fromAddress: paymentDetails[2],
-  //     toAddress: paymentDetails[3],
-  //     timestamp: paymentDetails[4],
-  //     isCancelled: paymentDetails[5],
-  //   };
-  //   setPayObject({ ..._payObject, isOn: true });
-  // };
+  const inputHandler = async (_payId) => {
+    setPaymentId(_payId);
+    const paymentDetails = await ctx.fetchPaymentDetails(_payId);
+    const _payObject = {
+      amount: ethers.utils.parseEther(paymentDetails[1]),
+      fromAddress: paymentDetails[2],
+      toAddress: paymentDetails[3],
+      timestamp: paymentDetails[4],
+      isCancelled: paymentDetails[5],
+    };
+    setPayObject({ ..._payObject, isOn: true });
+  };
   return (
     <>
       <Navbar active={3} address="0X7575788..." notifAmount={3} />
