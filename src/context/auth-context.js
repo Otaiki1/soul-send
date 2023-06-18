@@ -18,6 +18,8 @@ const AuthContext = React.createContext({
 
   sendCrypto: (address, amount) => {},
   claimCrypto: (paymentId) => {},
+  cancelPayment: (paymentId) => {},
+
   toBeClaimedList: [],
   sendList: [],
 
@@ -170,6 +172,29 @@ export const AuthContextProvider = (props) => {
       console.log("NOT CONNECTED ");
     }
   }
+  async function cancelPayment(paymentId) {
+    if (account && soulname && isConnected) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("SIGNER IS _________", signer);
+        const escrow = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("claiming payment id... ");
+        const sendTxn = await escrow.cancelPayment(paymentId);
+
+        console.log("Transaction sent! Waiting for confirmation...", sendTxn);
+
+        const receipt = await sendTxn.wait();
+
+        console.log("Transaction confirmed! Transaction hash:", sendTxn.hash);
+      } catch (err) {
+        console.log("errror is ___", err);
+      }
+    } else {
+      console.log("NOT CONNECTED ");
+    }
+  }
   async function fetchPaymentClaims() {
     if (account && soulname && isConnected) {
       try {
@@ -245,6 +270,7 @@ export const AuthContextProvider = (props) => {
         fetchPaymentClaims: fetchPaymentClaims,
         fetchPaymentDetails: fetchPaymentDetails,
         fetchUserSends: fetchUserSends,
+        cancelPayment: cancelPayment,
       }}
     >
       {props.children}

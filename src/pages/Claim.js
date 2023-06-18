@@ -29,6 +29,7 @@ const Claim = () => {
   const [paymentId, setPaymentId] = useState("");
   const [payObject, setPayObject] = useState([]);
   const [claimIds, setClaimIds] = useState([]);
+  const [sentIds, setSendIds] = useState([]);
   const [isAvailable, setIsAvailable] = useState(false);
 
   const {
@@ -37,6 +38,9 @@ const Claim = () => {
     toBeClaimedList,
     fetchPaymentDetails,
     claimCrypto,
+    sendList,
+    cancelPayment,
+    fetchUserSends,
   } = ctx;
 
   const inputHandler = async (_payId) => {
@@ -65,10 +69,16 @@ const Claim = () => {
     await claimCrypto(id);
     console.log("YOU HAVE SUCCESSFULLY BEEN PAID");
   };
+  const rejectTxn = async (id) => {
+    await cancelPayment(id);
+  };
   useEffect(() => {
     if (isConnected) {
       fetchPaymentClaims();
+      fetchUserSends();
       let tempArr = toBeClaimedList.map((item) => item.toNumber());
+      let tempArr2 = sendList.map((item) => item.toNumber());
+      setSendIds(tempArr2);
       console.log("temp Arr is ", tempArr);
       setClaimIds(tempArr);
     }
@@ -82,13 +92,27 @@ const Claim = () => {
         }
       />
       {claimIds.length > 0 && (
-        <div>
-          <p>YOU have access to the following paymentIds</p>
-          <ul>
-            {claimIds.map((id) => (
-              <li> {id}</li>
-            ))}
-          </ul>
+        <div className={styles.listsWrapper}>
+          <Card>
+            <div className={styles.listsHome}>
+              <p>YOU can claim the following paymentIds</p>
+              <ul>
+                {claimIds.map((id) => (
+                  <li> {id}</li>
+                ))}
+              </ul>
+            </div>
+          </Card>
+          <Card>
+            <div className={styles.listsHome}>
+              <p>YOU can attempt canceling the following paymentIds</p>
+              <ul>
+                {sentIds.map((id) => (
+                  <li> {id}</li>
+                ))}
+              </ul>
+            </div>
+          </Card>
         </div>
       )}
       <div className={styles.notifications}>
@@ -120,7 +144,13 @@ const Claim = () => {
                   claimTxn(payObject.id);
                 }}
               />
-              <Button btnText="Reject" isDark={true} />
+              <Button
+                btnText="Reject"
+                isDark={true}
+                clickHandler={() => {
+                  rejectTxn(payObject.id);
+                }}
+              />
             </div>
           </Card>
         )}

@@ -11,3 +11,17 @@
   display: flex;
   justify-content: space-between;
 }
+.listsWrapper {
+  display: flex;
+  color: #004aad;
+  justify-content: space-between;
+}
+.listsHome > p {
+  font-weight: 800;
+}
+.listsHome ul {
+  display: flex;
+}
+.listsHome li {
+  margin: 0 0.5rem;
+}
