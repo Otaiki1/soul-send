@@ -4,17 +4,35 @@ import Card from "../components/UI/Card";
 import Input from "../components/UI/Input";
 import styles from "./Send.module.css";
 import AuthContext from "../context/auth-context";
+import { fetchSoulNameDetails } from "../utils/masa";
 
 const Send = () => {
   const ctx = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
+  const [receiverAddress, setReceiverAddress] = useState("");
   const [amount, setAmount] = useState("");
+  const [inputGood, setInputGood] = useState(true);
+
+  const checkValue = async (value) => {
+    let stripped = value.split(".")[0];
+    const soulnameDetails = await fetchSoulNameDetails(stripped);
+    if (soulnameDetails) {
+      setReceiverAddress(soulnameDetails.owner);
+      setInputGood(true);
+    } else {
+      setInputGood(false);
+    }
+  };
 
   const submitHandler = async (e) => {
-    //   e.preventDefault();
-    //   const sendTx = await ctx.sendCrypto(address, amount);
+    e.preventDefault();
+    try {
+      const sendTx = await ctx.sendCrypto(receiverAddress, amount);
+    } catch (err) {
+      console.log(err);
+    }
+
     //   if (sendTx) {
     //     console.log("sent to escrow");
     //     alert("Payment successful , note the payment id is ", sendTx);
@@ -45,10 +63,12 @@ const Send = () => {
             label="Soul Name"
             input={{ id: "soulName" }}
             onChange={(e) => {
-              setAddress(e.target.value);
+              checkValue(e.target.value);
             }}
-            isBlue
+            isBlue={inputGood}
           />
+          {!inputGood && <p>invalid celo address</p>}
+          {inputGood && <p>correct</p>}
         </Card>
         <Card cardHeader="Transaction" otherClass={styles.move}>
           <Input
@@ -60,10 +80,10 @@ const Send = () => {
             isBlue
           />
         </Card>
-        <Card cardHeader="Notification time" otherClass={styles.move}>
+        <Card cardHeader="Email Address" otherClass={styles.move}>
           <Input
-            label="Timing"
-            input={{ id: "timing", type: "number" }}
+            label="Email Addresss"
+            input={{ id: "emailAddress", type: "email" }}
             onChange={(e) => {
               setEmail(e.target.value);
             }}

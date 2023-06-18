@@ -6,7 +6,7 @@ import {
   createIdentity,
   loadIdentity,
   listSoulNames,
-  loadSoulnameByName,
+  loadSoulNameByName,
 } from "@masa-finance/masa-sdk";
 import { ethers } from "ethers";
 
@@ -30,7 +30,7 @@ export async function hasSoulName(address) {
 }
 export async function fetchSoulNameDetails(soulname) {
   try {
-    const hasIdentity = await loadSoulnameByName(masa, soulname);
+    const hasIdentity = await loadSoulNameByName(masa, soulname);
     return hasIdentity;
   } catch (e) {
     console.log("errro is ", e);

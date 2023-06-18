@@ -1,6 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { ethers } from "ethers";
 
+import abi from "../utils/escrow.abi.json";
+import { CONTRACT_ADDRESS } from "../utils/constants";
+
 import { useMasa } from "@masa-finance/masa-react";
 import { masa, createSoulNameHandler, hasSoulName } from "../utils/masa";
 import { switchChain } from "../utils/wallet";
@@ -12,6 +15,8 @@ const AuthContext = React.createContext({
 
   mintSoulName: (name, address) => {},
   soulName: "",
+
+  sendCrypto: (address, amount) => {},
 });
 
 export const AuthContextProvider = (props) => {
@@ -93,6 +98,46 @@ export const AuthContextProvider = (props) => {
     }
   };
 
+  async function sendCrypto(address, amount) {
+    if (account && soulname && isConnected) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("SIGNER IS _________", signer);
+        const escrow = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("sending token... ");
+        const sendTxn = await escrow.createPayment(address, {
+          value: ethers.utils.parseEther(amount),
+        });
+
+        console.log("Transaction sent! Waiting for confirmation...", sendTxn);
+
+        const receipt = await sendTxn.wait();
+
+        console.log("Transaction confirmed! Transaction hash:", sendTxn.hash);
+
+        console.log("Listening to events...", receipt);
+        let paymentId;
+        const paymentCreatedEvents = receipt.events.filter(
+          (event) => event.event === "PaymentCreated"
+        );
+
+        if (paymentCreatedEvents.length > 0) {
+          console.log("PaymentCreated event emitted!");
+          console.log("Event details:", paymentCreatedEvents[0].args);
+          paymentId = paymentCreatedEvents[0].args;
+        }
+
+        return paymentId.toString();
+      } catch (err) {
+        console.log("errror is ___", err);
+      }
+    } else {
+      console.log("NOT CONNECTED ");
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -101,6 +146,7 @@ export const AuthContextProvider = (props) => {
         connectWallet: connectWalletHandler,
         mintSoulName: mintSoulName,
         soulName: soulname,
+        sendCrypto: sendCrypto,
       }}
     >
       {props.children}
