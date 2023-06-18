@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Navbar from "../components/Navbar/Navbar";
 import Button from "../components/UI/Button";
@@ -25,24 +25,72 @@ function convertTimestamp(timestamp) {
 
 const Claim = () => {
   const ctx = useContext(AuthContext);
+
   const [paymentId, setPaymentId] = useState("");
-  const [payObject, setPayObject] = useState({ isOn: false });
+  const [payObject, setPayObject] = useState([]);
+  const [claimIds, setClaimIds] = useState([]);
+  const [isAvailable, setIsAvailable] = useState(false);
+
+  const {
+    isConnected,
+    fetchPaymentClaims,
+    toBeClaimedList,
+    fetchPaymentDetails,
+    claimCrypto,
+  } = ctx;
 
   const inputHandler = async (_payId) => {
-    setPaymentId(_payId);
-    const paymentDetails = await ctx.fetchPaymentDetails(_payId);
+    convertClaims(_payId);
+  };
+  const inputChanged = (val) => {
+    inputHandler(val);
+  };
+
+  const convertClaims = async (id) => {
+    const paymentDetail = await fetchPaymentDetails(id);
     const _payObject = {
-      amount: ethers.utils.parseEther(paymentDetails[1]),
-      fromAddress: paymentDetails[2],
-      toAddress: paymentDetails[3],
-      timestamp: paymentDetails[4],
-      isCancelled: paymentDetails[5],
+      id: paymentDetail[0].toNumber(),
+      amount: ethers.utils.formatEther(paymentDetail[1].toString()),
+      receiverAddress: paymentDetail[2],
+      senderAddress: paymentDetail[3],
+      timestamp: paymentDetail[4].toNumber(),
+      isCancelled: paymentDetail[5],
     };
+    console.log("payment deettaailsss", paymentDetail);
+
     setPayObject({ ..._payObject, isOn: true });
   };
+
+  const claimTxn = async (id) => {
+    await claimCrypto(id);
+    console.log("YOU HAVE SUCCESSFULLY BEEN PAID");
+  };
+  useEffect(() => {
+    if (isConnected) {
+      fetchPaymentClaims();
+      let tempArr = toBeClaimedList.map((item) => item.toNumber());
+      console.log("temp Arr is ", tempArr);
+      setClaimIds(tempArr);
+    }
+  }, [isConnected]);
   return (
     <>
-      <Navbar active={3} address="0X7575788..." notifAmount={3} />
+      <Navbar
+        active={3}
+        notifAmount={
+          ctx.toBeClaimedList.length ? ctx.toBeClaimedList.length : ""
+        }
+      />
+      {claimIds.length > 0 && (
+        <div>
+          <p>YOU have access to the following paymentIds</p>
+          <ul>
+            {claimIds.map((id) => (
+              <li> {id}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className={styles.notifications}>
         <Card cardHeader="Fetch Payment ">
           <Input
@@ -52,23 +100,43 @@ const Claim = () => {
               type: "number",
               placeholder: "Input the payment id",
             }}
-            onChange={(e) => inputHandler(e.target.value)}
+            onChange={(e) => inputChanged(e.target.value)}
             isBlue
           />
         </Card>
-        {/* {payObject.isOn && (
+        {payObject.isOn && (
           <Card cardHeader="Notification">
             <p className={styles.youHaveReceived}>
-              {`${payObject.fromAddress} has sent ${payObject.amount} to ${
-                payObject.toAddress
+              {`${payObject.senderAddress} has sent ${
+                payObject.amount
+              } CELO to ${
+                payObject.receiverAddress
               }, It was sent on ${convertTimestamp(payObject.timestamp)}`}
+            </p>
+            <div className={styles.btnGroup}>
+              <Button
+                btnText="Claim"
+                clickHandler={() => {
+                  claimTxn(payObject.id);
+                }}
+              />
+              <Button btnText="Reject" isDark={true} />
+            </div>
+          </Card>
+        )}
+        {/* {payDetailsObj.map((payObject) => (
+          <Card cardHeader="Notification">
+            <p className={styles.youHaveReceived}>
+              {`${payItem.senderAddress} has sent ${payItem.amount} to ${
+                payItem.receiverAddress
+              }, It was sent on ${convertTimestamp(payItem.timestamp)}`}
             </p>
             <div className={styles.btnGroup}>
               <Button btnText="Claim" />
               <Button btnText="Reject" isDark={true} />
             </div>
           </Card>
-        )} */}
+        ))} */}
       </div>
     </>
   );

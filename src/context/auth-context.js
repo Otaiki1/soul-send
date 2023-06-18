@@ -17,12 +17,21 @@ const AuthContext = React.createContext({
   soulName: "",
 
   sendCrypto: (address, amount) => {},
+  claimCrypto: (paymentId) => {},
+  toBeClaimedList: [],
+  sendList: [],
+
+  fetchPaymentClaims: () => {},
+  fetchUserSends: () => {},
+  fetchPaymentDetails: (paymentId) => {},
 });
 
 export const AuthContextProvider = (props) => {
   const [isConnected, setIsConnected] = useState(false);
   const [account, setAccount] = useState("");
   const [soulname, setSoulName] = useState("");
+  const [claimTxnArr, setClaimTxnArr] = useState([]);
+  const [sendArr, setSendArr] = useState([]);
 
   const {
     connect,
@@ -138,6 +147,89 @@ export const AuthContextProvider = (props) => {
     }
   }
 
+  async function claimCrypto(paymentId) {
+    if (account && soulname && isConnected) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("SIGNER IS _________", signer);
+        const escrow = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("claiming payment id... ");
+        const sendTxn = await escrow.releasePayment(paymentId);
+
+        console.log("Transaction sent! Waiting for confirmation...", sendTxn);
+
+        const receipt = await sendTxn.wait();
+
+        console.log("Transaction confirmed! Transaction hash:", sendTxn.hash);
+      } catch (err) {
+        console.log("errror is ___", err);
+      }
+    } else {
+      console.log("NOT CONNECTED ");
+    }
+  }
+  async function fetchPaymentClaims() {
+    if (account && soulname && isConnected) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("SIGNER IS _________", signer);
+        const escrow = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("fetching payment details ");
+        const fetchTxn = await escrow.fetchReceiverIds();
+
+        console.log("fetched payment details__--", fetchTxn);
+        setClaimTxnArr(fetchTxn);
+      } catch (err) {
+        console.log("error is ", err);
+      }
+    } else {
+      alert("Kindly Connect wallet");
+    }
+  }
+  async function fetchUserSends() {
+    if (account && soulname && isConnected) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("SIGNER IS _________", signer);
+        const escrow = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("fetching payment details ");
+        const fetchTxn = await escrow.fetchSenderIds();
+
+        console.log("fetched payment details__--", fetchTxn);
+        setSendArr(fetchTxn);
+      } catch (err) {
+        console.log("error is ", err);
+      }
+    } else {
+      alert("Kindly Connect wallet");
+    }
+  }
+  async function fetchPaymentDetails(_payId) {
+    if (account && soulname && isConnected) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        console.log("SIGNER IS _________", signer);
+        const escrow = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        console.log("fetching payment details ");
+        const fetchTxn = await escrow.getPayment(_payId);
+
+        console.log("fetched payment details__--", fetchTxn);
+        return fetchTxn;
+      } catch (err) {
+        console.log("error is ", err);
+      }
+    } else {
+      alert("Kindly Connect wallet");
+    }
+  }
   return (
     <AuthContext.Provider
       value={{
@@ -147,6 +239,12 @@ export const AuthContextProvider = (props) => {
         mintSoulName: mintSoulName,
         soulName: soulname,
         sendCrypto: sendCrypto,
+        claimCrypto: claimCrypto,
+        toBeClaimedList: claimTxnArr,
+        sendList: sendArr,
+        fetchPaymentClaims: fetchPaymentClaims,
+        fetchPaymentDetails: fetchPaymentDetails,
+        fetchUserSends: fetchUserSends,
       }}
     >
       {props.children}
