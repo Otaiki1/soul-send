@@ -5,13 +5,15 @@ import Input from "../components/UI/Input";
 import styles from "./Send.module.css";
 import AuthContext from "../context/auth-context";
 import { fetchSoulNameDetails } from "../utils/masa";
+import TxnInfoCard from "../components/TxnInfoCard";
 
 const Send = () => {
   const ctx = useContext(AuthContext);
-
+  const [showSentModal, setShowSentModal] = useState(false);
   const [email, setEmail] = useState("");
   const [receiverAddress, setReceiverAddress] = useState("");
   const [amount, setAmount] = useState("");
+  const [paymentId, setPaymentId] = useState("");
   const [inputGood, setInputGood] = useState(true);
 
   const checkValue = async (value) => {
@@ -29,6 +31,12 @@ const Send = () => {
     e.preventDefault();
     try {
       const sendTx = await ctx.sendCrypto(receiverAddress, amount);
+      setPaymentId(sendTx);
+      if (sendTx) {
+        setShowSentModal(true);
+        setEmail("");
+        setAmount("");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -54,9 +62,22 @@ const Send = () => {
     //   }
     //   console.log(email);
   };
+
+  const closeModal = () => {
+    setShowSentModal(false);
+  };
   return (
     <>
       <Navbar active={2} />
+      {showSentModal && (
+        <TxnInfoCard
+          headline={`You have successfully created payment of ${amount}`}
+          txnId={paymentId}
+          sender={ctx.account}
+          receiver={receiverAddress}
+          onClose={closeModal}
+        />
+      )}
       <form className={styles.sendForm} onSubmit={submitHandler}>
         <Card cardHeader="Send Crypto" otherClass={styles.moveLeft}>
           <Input
