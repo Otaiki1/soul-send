@@ -1,16 +1,36 @@
 <svg width="1440" height="829" viewBox="0 0 1440 829" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_134_186)">
-<rect width="1440" height="829" fill="white"/>
-<rect width="1440" height="829" fill="url(#paint0_linear_134_186)"/>
-</g>
-<defs>
-<linearGradient id="paint0_linear_134_186" x1="0" y1="0" x2="1440" y2="829" gradientUnits="userSpaceOnUse">
-<stop stop-color="#011A1E"/>
-<stop offset="0.637924" stop-color="#011A1E" stop-opacity="0.9"/>
-<stop offset="1" stop-color="#011A1E"/>
-</linearGradient>
-<clipPath id="clip0_134_186">
-<rect width="1440" height="829" fill="white"/>
-</clipPath>
-</defs>
+  <g clip-path="url(#clip0_134_186)">
+    <rect width="1440" height="829" fill="#004aad"/>
+    <rect width="1440" height="829" fill="url(#paint0_linear_134_186)">
+      <animate
+        attributeName="opacity"
+        values="0;0.15;0"
+        dur="20s"
+        repeatCount="indefinite"
+      />
+    </rect>
+  </g>
+  <defs>
+    <linearGradient id="paint0_linear_134_186" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#004aad">
+        <animate
+          attributeName="offset"
+          values="0;0.5;1;0.5;0"
+          dur="20s"
+          repeatCount="indefinite"
+        />
+      </stop>
+      <stop offset="100%" stop-color="#011A1E">
+        <animate
+          attributeName="offset"
+          values="0;0.5;1;0.5;0"
+          dur="20s"
+          repeatCount="indefinite"
+        />
+      </stop>
+    </linearGradient>
+    <clipPath id="clip0_134_186">
+      <rect width="1440" height="829" fill="white"/>
+    </clipPath>
+  </defs>
 </svg>

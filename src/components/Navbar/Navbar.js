@@ -16,7 +16,7 @@ export default function Navbar(props) {
 
   return (
     <div className={styles.navbar}>
-      <div>
+      <div className={styles.logobar}>
         <img className={styles.image1Icon} alt="logo" src={logo} />
       </div>
       <NavButtons active={props.active} notifAmount={props.notifAmount} />
@@ -24,7 +24,6 @@ export default function Navbar(props) {
         {!ctx.isConnected && <ConnectWallet clickHandler={ctx.connectWallet} />}
 
         {ctx.isConnected && ctx.account && <AddressBar address={ctx.account} />}
-        <ConnectWallet />
       </div>
     </div>
   );
