@@ -28,7 +28,7 @@ const Home = () => {
     <>
       <Navbar active={1} />
       {currentStep === 0 && <DefaultHome clickHandler={onGetStartedClick} />}
-      {currentStep === 1 && <SoulNamePage />}
+      {currentStep === 1 && <SoulNamePage clickHandler={onGetStartedClick} />}
     </>
   );
 };
@@ -76,13 +76,13 @@ const DefaultHome = (props) => {
     </div>
   );
 };
-const SoulNamePage = () => {
+const SoulNamePage = (props) => {
   return (
     <>
       <h1 className={styles.mintWarning}>
         You have to mint a soulname before you can use safe-send
       </h1>
-      <MintSoulName />
+      <MintSoulName clickHandler={props.clickHandler} />
     </>
   );
 };

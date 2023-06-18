@@ -18,7 +18,15 @@ export const masa = new Masa({
   environment: "production",
   networkName: "alfajores",
 });
-
+export async function hasSoulName(address) {
+  try {
+    const hasIdentity = await listSoulNames(masa, address);
+    return hasIdentity;
+  } catch (e) {
+    console.log("errro is ", e);
+    return false;
+  }
+}
 export async function createSoulNameHandler(name, address) {
   try {
     const isLogIn = await checkLogin(masa);

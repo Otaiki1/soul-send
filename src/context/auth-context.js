@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import { ethers } from "ethers";
 
 import { useMasa } from "@masa-finance/masa-react";
-import { masa, createSoulNameHandler } from "../utils/masa";
+import { masa, createSoulNameHandler, hasSoulName } from "../utils/masa";
 import { switchChain } from "../utils/wallet";
 
 const AuthContext = React.createContext({
@@ -11,14 +11,21 @@ const AuthContext = React.createContext({
   connectWallet: () => {},
 
   mintSoulName: (name, address) => {},
+  soulName: "",
 });
 
 export const AuthContextProvider = (props) => {
   const [isConnected, setIsConnected] = useState(false);
   const [account, setAccount] = useState("");
+  const [soulname, setSoulName] = useState("");
 
-  const { connect, walletAddress, openMintSoulnameModal, currentNetwork } =
-    useMasa();
+  const {
+    connect,
+    walletAddress,
+    openMintSoulnameModal,
+    currentNetwork,
+    isModalOpen,
+  } = useMasa();
 
   const connectionHandler = useCallback(() => {
     connect();
@@ -31,9 +38,17 @@ export const AuthContextProvider = (props) => {
         // Request account access
         await switchChain();
         connectionHandler();
-        console.log("Your current Network is ", currentNetwork);
+        const cN = await currentNetwork;
+        console.log("Your current Network is ", cN);
         const accounts = walletAddress;
-        openMintSoulnameModal();
+        const hasSn = await hasSoulName(walletAddress);
+        if (hasSn.length > 0) {
+          setSoulName(hasSn[0].tokenDetails[0]);
+
+          console.log("has soulname ??", hasSn[0].tokenDetails[0]);
+        }
+
+        // console.log("has soulname ??", hasSn[0].tokenDetails[0]);
 
         if (accounts != "") {
           console.log("Connected to wallet!", accounts);
@@ -59,12 +74,19 @@ export const AuthContextProvider = (props) => {
     }
   };
 
-  const mintSoulName = async (name, address) => {
+  const mintSoulName = async () => {
     try {
-      const doneStuff = await createSoulNameHandler(name, address);
-      console.log("YOU HAVE DONE STUFF _____", doneStuff);
+      openMintSoulnameModal();
     } catch (err) {
       console.log("ERROR IS ____", err);
+    }
+    if (!isModalOpen) {
+      const hasSn = await hasSoulName(walletAddress);
+      if (hasSn.length > 0) {
+        setSoulName(hasSn[0].tokenDetails[0]);
+
+        console.log("has soulname ??", hasSn[0].tokenDetails[0]);
+      }
     }
   };
 
@@ -74,7 +96,8 @@ export const AuthContextProvider = (props) => {
         isConnected: isConnected,
         account: account,
         connectWallet: connectWalletHandler,
-        // mintSoulName: mintSoulName,
+        mintSoulName: mintSoulName,
+        soulName: soulname,
       }}
     >
       {props.children}
