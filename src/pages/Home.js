@@ -1,24 +1,22 @@
-import { useCallback, useState } from "react";
+import { useContext, useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Button from "../components/UI/Button";
 import Card from "../components/UI/Card";
 import Input from "../components/UI/Input";
 import styles from "./Home.module.css";
-import { Navigate, useNavigate } from "react-router-dom";
 
 import MintSoulName from "../components/Home/MintSoulName";
+import AuthContext from "../context/auth-context";
+import WelcomePage from "../components/Home/WelcomePage";
 
 const Home = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const navigate = useNavigate();
+  const ctx = useContext(AuthContext);
 
-  const moveToSend = useCallback(() => {
-    Navigate("/send");
-  }, [navigate]);
+  const [currentStep, setCurrentStep] = useState(0);
 
   const onGetStartedClick = () => {
     if (currentStep === 3) {
-      moveToSend();
+      setCurrentStep(0);
     } else {
       setCurrentStep(currentStep + 1);
     }
@@ -29,6 +27,7 @@ const Home = () => {
       <Navbar active={1} />
       {currentStep === 0 && <DefaultHome clickHandler={onGetStartedClick} />}
       {currentStep === 1 && <SoulNamePage clickHandler={onGetStartedClick} />}
+      {currentStep === 2 && <WelcomePage userSoulname={ctx.soulName} />}
     </>
   );
 };
@@ -41,8 +40,8 @@ const DefaultHome = (props) => {
           The safe way of transacting crypto
         </h1>
         <p className={styles.safeguardYourCrypto}>
-          Safeguard your crypto transactions and avoid costly mistakes with our
-          easy-to-use DApp
+          Safeguard your crypto transactions, avoid costly mistakes by sending
+          to a soulname and having the opportunity to revert transactions
         </p>
 
         <button

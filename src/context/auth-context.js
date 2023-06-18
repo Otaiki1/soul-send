@@ -75,11 +75,14 @@ export const AuthContextProvider = (props) => {
   };
 
   const mintSoulName = async () => {
-    try {
-      openMintSoulnameModal();
-    } catch (err) {
-      console.log("ERROR IS ____", err);
+    if (soulname == "") {
+      try {
+        openMintSoulnameModal();
+      } catch (err) {
+        console.log("ERROR IS ____", err);
+      }
     }
+
     if (!isModalOpen) {
       const hasSn = await hasSoulName(walletAddress);
       if (hasSn.length > 0) {
