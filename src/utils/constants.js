@@ -19,4 +19,4 @@ export const ChainsConfig = {
   },
 };
 
-export const CONTRACT_ADDRESS = "";
+export const CONTRACT_ADDRESS = "0x38AB02633B31A742801A2e2C99bCca94F0A0d2AC";
